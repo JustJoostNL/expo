@@ -92,7 +92,7 @@ export declare class VideoPlayer extends SharedObject<VideoPlayerEvents> {
    * @platform ios
    */
   drmAssetId: string;
-  
+
   /**
    * The DRM CKC string
    * @platform ios
