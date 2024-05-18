@@ -90,6 +90,11 @@ export declare class VideoPlayer extends SharedObject<VideoPlayerEvents> {
      */
     constructor(source: VideoSource);
     /**
+     * Set's the DRM license result.
+     * @platform ios
+     */
+    setGetDRMLicense(callback: (spcString: string, assetId: string) => Promise<string>): void;
+    /**
      * Resumes the player.
      */
     play(): void;

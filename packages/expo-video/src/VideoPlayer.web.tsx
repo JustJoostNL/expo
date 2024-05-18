@@ -52,6 +52,7 @@ export default class VideoPlayerWeb
   drmSpcString: string = '';
   drmAssetId: string = '';
   drmCkcString: string = '';
+  setGetDRMLicense(callback: (spcString: string, assetId: string) => Promise<string>): void {}
 
   set muted(value: boolean) {
     this._mountedVideos.forEach((video) => {
