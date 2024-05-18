@@ -15,6 +15,9 @@ export default class VideoPlayerWeb extends globalThis.expo.SharedObject<VideoPl
     _status: VideoPlayerStatus;
     staysActiveInBackground: boolean;
     showNowPlayingNotification: boolean;
+    drmSpcString: string;
+    drmAssetId: string;
+    drmCkcString: string;
     set muted(value: boolean);
     get muted(): boolean;
     set playbackRate(value: number);

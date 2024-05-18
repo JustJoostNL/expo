@@ -161,6 +161,21 @@ public final class VideoModule: Module {
         player.volume = volume
       }
 
+      Property("drmSpcString") { player -> String in
+        return player.drmSpcString ?? ""
+      }
+
+      Property("drmAssetId") { player -> String in
+        return player.drmAssetId ?? ""
+      }
+      
+      Property("drmCkcString") { player -> String in
+        return player.drmCkcString ?? ""
+      }
+      .set { (player, ckcString: String) in
+        player.drmCkcString = ckcString
+      }
+
       Function("play") { player in
         player.pointer.play()
       }

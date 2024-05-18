@@ -70,6 +70,21 @@ export declare class VideoPlayer extends SharedObject<VideoPlayerEvents> {
      */
     staysActiveInBackground: boolean;
     /**
+     * The DRM SPC string
+     * @platform ios
+     */
+    drmSpcString: string;
+    /**
+     * The DRM asset ID
+     * @platform ios
+     */
+    drmAssetId: string;
+    /**
+     * The DRM CKC string
+     * @platform ios
+     */
+    drmCkcString: string;
+    /**
      * Initializes a new video player instance with the given source.
      * @hidden
      */

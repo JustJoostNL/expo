@@ -14,8 +14,9 @@ internal class ContentKeyManager {
     contentKeySession.setDelegate(contentKeyDelegate, queue: ContentKeyManager.contentKeyDelegateQueue)
   }
 
-  func addContentKeyRequest(videoSource: VideoSource, asset: AVContentKeyRecipient) {
+  func addContentKeyRequest(videoSource: VideoSource, asset: AVContentKeyRecipient, player: VideoPlayer) {
     contentKeyDelegate.videoSource = videoSource
+    contentKeyDelegate.player = player
     contentKeySession.addContentKeyRecipient(asset)
   }
 }

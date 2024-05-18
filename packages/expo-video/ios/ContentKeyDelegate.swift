@@ -6,6 +6,7 @@ import ExpoModulesCore
 internal class ContentKeyDelegate: NSObject, AVContentKeySessionDelegate {
   // Video source that is currently being loaded. Used for retrieving information like license and certificate urls
   var videoSource: VideoSource?
+  var player: VideoPlayer?
 
   // MARK: - AVContentKeySessionDelegate
 
@@ -78,6 +79,20 @@ internal class ContentKeyDelegate: NSObject, AVContentKeySessionDelegate {
       }
 
       do {
+        guard let player = self.player else {
+          keyRequest.processContentKeyResponseError(DRMLoadException("Couldn't find a reference to the player in the online key completion handler."))
+          return
+        }
+
+        player.drmSpcString = spcData.base64EncodedString()
+        player.drmAssetId = assetIdString
+
+        if let ckcData = player.drmCkcString?.data(using: .utf8) {
+          let keyResponse = AVContentKeyResponse(fairPlayStreamingKeyResponseData: ckcData)
+          keyRequest.processContentKeyResponse(keyResponse)
+          return
+        }
+
         let ckcData = try self.requestContentKeyFromKeySecurityModule(spcData: spcData, assetID: assetIdString, keyRequest: keyRequest)
         let keyResponse = AVContentKeyResponse(fairPlayStreamingKeyResponseData: ckcData)
         keyRequest.processContentKeyResponse(keyResponse)

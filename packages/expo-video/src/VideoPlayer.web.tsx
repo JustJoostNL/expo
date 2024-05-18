@@ -48,6 +48,10 @@ export default class VideoPlayerWeb
   _status: VideoPlayerStatus = 'idle';
   staysActiveInBackground: boolean = false; // Not supported on web. Dummy to match the interface.
   showNowPlayingNotification: boolean = false; // Not supported on web. Dummy to match the interface.
+  // Not supported on web. Dummy to match the interface.
+  drmSpcString: string = '';
+  drmAssetId: string = '';
+  drmCkcString: string = '';
 
   set muted(value: boolean) {
     this._mountedVideos.forEach((video) => {

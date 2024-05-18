@@ -9,6 +9,9 @@ internal final class VideoPlayer: SharedRef<AVPlayer>, Hashable, VideoPlayerObse
   let observer: VideoPlayerObserver
 
   var loop = false
+  var drmSpcString: String?
+  var drmAssetId: String?
+  var drmCkcString: String?
   private(set) var isPlaying = false
   private(set) var status: PlayerStatus = .idle
   var playbackRate: Float = 1.0 {
@@ -103,7 +106,7 @@ internal final class VideoPlayer: SharedRef<AVPlayer>, Hashable, VideoPlayerObse
 
     if let drm = videoSource.drm {
       try drm.type.assertIsSupported()
-      contentKeyManager.addContentKeyRequest(videoSource: videoSource, asset: asset)
+      contentKeyManager.addContentKeyRequest(videoSource: videoSource, asset: asset, player: self)
     }
 
     playerItem.audioTimePitchAlgorithm = preservesPitch ? .spectral : .varispeed

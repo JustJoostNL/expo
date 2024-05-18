@@ -30,6 +30,10 @@ export default class VideoPlayerWeb extends globalThis.expo.SharedObject {
     _status = 'idle';
     staysActiveInBackground = false; // Not supported on web. Dummy to match the interface.
     showNowPlayingNotification = false; // Not supported on web. Dummy to match the interface.
+    // Not supported on web. Dummy to match the interface.
+    drmSpcString = '';
+    drmAssetId = '';
+    drmCkcString = '';
     set muted(value) {
         this._mountedVideos.forEach((video) => {
             video.muted = value;
