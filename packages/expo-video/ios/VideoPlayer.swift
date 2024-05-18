@@ -9,9 +9,12 @@ internal final class VideoPlayer: SharedRef<AVPlayer>, Hashable, VideoPlayerObse
   let observer: VideoPlayerObserver
 
   var loop = false
+
   var drmSpcString: String?
   var drmAssetId: String?
   var drmCkcString: String?
+  var getDRMLicense: ((String, String) -> JavaScriptFunction<String>)?
+
   private(set) var isPlaying = false
   private(set) var status: PlayerStatus = .idle
   var playbackRate: Float = 1.0 {

@@ -176,6 +176,10 @@ public final class VideoModule: Module {
         player.drmCkcString = ckcString
       }
 
+      Function("setGetDRMLicense") { (player: VideoPlayer, callback: JavaScriptFunction<String>) in
+        player.getDRMLicense = callback
+      }
+
       Function("play") { player in
         player.pointer.play()
       }
