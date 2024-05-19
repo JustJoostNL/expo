@@ -13,7 +13,7 @@ internal final class VideoPlayer: SharedRef<AVPlayer>, Hashable, VideoPlayerObse
   var drmSpcString: String?
   var drmAssetId: String?
   var drmCkcString: String?
-  var getDRMLicense: ((String, String) -> JavaScriptFunction<String>)?
+  var getDRMLicense: JavaScriptFunction<String>?
 
   private(set) var isPlaying = false
   private(set) var status: PlayerStatus = .idle
