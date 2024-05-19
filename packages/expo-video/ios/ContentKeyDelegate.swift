@@ -85,13 +85,17 @@ internal class ContentKeyDelegate: NSObject, AVContentKeySessionDelegate {
         }
 
         if let getDRMLicense = player.getDRMLicense {
-          let ckcString: String = getDRMLicense.call(spcData.base64EncodedString(), assetIdString)
-          guard let ckcData = Data(base64Encoded: ckcString) else {
-            keyRequest.processContentKeyResponseError(DRMLoadException("The CKC received from the server is invalid"))
-            return
+          do {
+            let ckcString = try getDRMLicense.call(spcData.base64EncodedString(), assetIdString)
+            guard let ckcData = Data(base64Encoded: ckcString) else {
+              keyRequest.processContentKeyResponseError(DRMLoadException("The CKC received from the server is invalid"))
+              return
+            }
+            let keyResponse = AVContentKeyResponse(fairPlayStreamingKeyResponseData: ckcData)
+            keyRequest.processContentKeyResponse(keyResponse)
+          } catch {
+            keyRequest.processContentKeyResponseError(error)
           }
-          let keyResponse = AVContentKeyResponse(fairPlayStreamingKeyResponseData: ckcData)
-          keyRequest.processContentKeyResponse(keyResponse)
           return
         }
 
