@@ -1,6 +1,7 @@
 // Copyright 2024-present 650 Industries. All rights reserved.
 
 import AVFoundation
+import ExpoModulesCore
 
 internal class ContentKeyDelegate: NSObject, AVContentKeySessionDelegate {
   // Video source that is currently being loaded. Used for retrieving information like license and certificate urls
@@ -92,8 +93,8 @@ internal class ContentKeyDelegate: NSObject, AVContentKeySessionDelegate {
           while self.player?.drmLicense == nil {
             sleep(1)
           }
-          if let player = self.player, let license = player.drmLicense {
-            let keyResponse = AVContentKeyResponse(fairPlayStreamingKeyResponseData: license.data(using: .utf8))
+          if let player = self.player, let license = player.drmLicense, let licenseData = license.data(using: .utf8) {
+            let keyResponse = AVContentKeyResponse(fairPlayStreamingKeyResponseData: licenseData)
             keyRequest.processContentKeyResponse(keyResponse)
           }
         }
