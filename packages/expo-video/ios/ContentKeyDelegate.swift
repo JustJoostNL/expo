@@ -77,6 +77,11 @@ internal class ContentKeyDelegate: NSObject, AVContentKeySessionDelegate {
         return
       }
 
+      guard let player = self.player else {
+        keyRequest.processContentKeyResponseError(DRMLoadException("Couldn't find a reference to the player in the online key completion handler."))
+        return
+      }
+
       player.drmSpcString = spcData.base64EncodedString()
       player.drmAssetId = assetIdString
 
