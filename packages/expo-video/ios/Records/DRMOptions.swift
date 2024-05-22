@@ -21,4 +21,7 @@ internal struct DRMOptions: Record {
 
   @Field
   var certificateUrl: URL?
+
+  @Field
+  var shouldWaitForCustomLicense: Bool = false
 }

@@ -82,34 +82,28 @@ export declare class VideoPlayer extends SharedObject<VideoPlayerEvents> {
   staysActiveInBackground: boolean;
 
   /**
-   * The DRM SPC string
+   * The DRM SPC, which can be used to get the DRM license.
    * @platform ios
    */
   drmSpcString: string;
 
   /**
-   * The DRM asset ID
+   * The DRM asset ID, which can be used to get the DRM license.
    * @platform ios
    */
   drmAssetId: string;
 
   /**
-   * The DRM CKC string
+   * The DRM license result.
    * @platform ios
    */
-  drmCkcString: string;
+  drmLicense: string;
 
   /**
    * Initializes a new video player instance with the given source.
    * @hidden
    */
   constructor(source: VideoSource);
-
-  /**
-   * Set's the DRM license result.
-   * @platform ios
-   */
-  setGetDRMLicense(callback: (spcString: string, assetId: string) => Promise<string>): void;
 
   /**
    * Resumes the player.
@@ -269,4 +263,10 @@ export type DRMOptions = {
    * @platform ios
    */
   certificateUrl?: string;
+
+  /**
+   * Makes sure the player will wait for the custom license to be set.
+   * @platform ios
+   */
+  shouldWaitForCustomLicense?: boolean;
 };

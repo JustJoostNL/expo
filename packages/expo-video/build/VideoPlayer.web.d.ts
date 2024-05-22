@@ -17,8 +17,7 @@ export default class VideoPlayerWeb extends globalThis.expo.SharedObject<VideoPl
     showNowPlayingNotification: boolean;
     drmSpcString: string;
     drmAssetId: string;
-    drmCkcString: string;
-    setGetDRMLicense(callback: (spcString: string, assetId: string) => Promise<string>): void;
+    drmLicense: string;
     set muted(value: boolean);
     get muted(): boolean;
     set playbackRate(value: number);

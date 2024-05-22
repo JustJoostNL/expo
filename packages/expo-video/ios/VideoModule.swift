@@ -168,16 +168,9 @@ public final class VideoModule: Module {
       Property("drmAssetId") { player -> String in
         return player.drmAssetId ?? ""
       }
-      
-      Property("drmCkcString") { player -> String in
-        return player.drmCkcString ?? ""
-      }
-      .set { (player, ckcString: String) in
-        player.drmCkcString = ckcString
-      }
 
-      Function("setGetDRMLicense") { (player: VideoPlayer, callback: JavaScriptFunction<String>) in
-        player.getDRMLicense = callback
+      Property("drmLicense") { player -> String in
+        return player.drmLicense ?? ""
       }
 
       Function("play") { player in

@@ -51,8 +51,7 @@ export default class VideoPlayerWeb
   // Not supported on web. Dummy to match the interface.
   drmSpcString: string = '';
   drmAssetId: string = '';
-  drmCkcString: string = '';
-  setGetDRMLicense(callback: (spcString: string, assetId: string) => Promise<string>): void {}
+  drmLicense: string = '';
 
   set muted(value: boolean) {
     this._mountedVideos.forEach((video) => {

@@ -33,8 +33,7 @@ export default class VideoPlayerWeb extends globalThis.expo.SharedObject {
     // Not supported on web. Dummy to match the interface.
     drmSpcString = '';
     drmAssetId = '';
-    drmCkcString = '';
-    setGetDRMLicense(callback) { }
+    drmLicense = '';
     set muted(value) {
         this._mountedVideos.forEach((video) => {
             video.muted = value;

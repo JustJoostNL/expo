@@ -1,7 +1,6 @@
 // Copyright 2024-present 650 Industries. All rights reserved.
 
 import AVFoundation
-import ExpoModulesCore
 
 internal class ContentKeyDelegate: NSObject, AVContentKeySessionDelegate {
   // Video source that is currently being loaded. Used for retrieving information like license and certificate urls
@@ -78,33 +77,31 @@ internal class ContentKeyDelegate: NSObject, AVContentKeySessionDelegate {
         return
       }
 
-      do {
-        guard let player = self.player else {
-          keyRequest.processContentKeyResponseError(DRMLoadException("Couldn't find a reference to the player in the online key completion handler."))
-          return
-        }
+      player.drmSpcString = spcData.base64EncodedString()
+      player.drmAssetId = assetIdString
 
-        if let getDRMLicense = player.getDRMLicense {
-          do {
-            let ckcString = try getDRMLicense.call(spcData.base64EncodedString(), assetIdString)
-            guard let ckcData = Data(base64Encoded: ckcString) else {
-              keyRequest.processContentKeyResponseError(DRMLoadException("The CKC received from the server is invalid"))
-              return
-            }
-            let keyResponse = AVContentKeyResponse(fairPlayStreamingKeyResponseData: ckcData)
-            keyRequest.processContentKeyResponse(keyResponse)
-          } catch {
-            keyRequest.processContentKeyResponseError(error)
+      let shouldWaitForCustomLicense = videoSource?.drm?.shouldWaitForCustomLicense ?? false
+
+      if shouldWaitForCustomLicense {
+        DispatchQueue.global().async {
+          while self.player?.drmLicense == nil {
+            sleep(1)
           }
-          return
+          if let player = self.player, let license = player.drmLicense {
+            let keyResponse = AVContentKeyResponse(fairPlayStreamingKeyResponseData: license.data(using: .utf8))
+            keyRequest.processContentKeyResponse(keyResponse)
+          }
         }
-
-        let ckcData = try self.requestContentKeyFromKeySecurityModule(spcData: spcData, assetID: assetIdString, keyRequest: keyRequest)
-        let keyResponse = AVContentKeyResponse(fairPlayStreamingKeyResponseData: ckcData)
-        keyRequest.processContentKeyResponse(keyResponse)
-      } catch {
-        keyRequest.processContentKeyResponseError(error)
+      } else {
+        do {
+          let ckcData = try self.requestContentKeyFromKeySecurityModule(spcData: spcData, assetID: assetIdString, keyRequest: keyRequest)
+          let keyResponse = AVContentKeyResponse(fairPlayStreamingKeyResponseData: ckcData)
+          keyRequest.processContentKeyResponse(keyResponse)
+        } catch {
+          keyRequest.processContentKeyResponseError(error)
+        }
       }
+      
     }
 
     keyRequest.makeStreamingContentKeyRequestData(
