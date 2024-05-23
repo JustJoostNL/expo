@@ -135,7 +135,7 @@ internal class ContentKeyDelegate: NSObject, AVContentKeySessionDelegate {
 
     var ckcRequest = URLRequest(url: licenseServerUrl)
     ckcRequest.httpMethod = "POST"
-    ckcRequest.httpBody = spcData
+    ckcRequest.httpBody = "spc=\(spcData.base64EncodedString())&assetId=\(assetID)".data(using: .utf8)
 
     if let headers = videoSource?.drm?.headers {
       for item in headers {
