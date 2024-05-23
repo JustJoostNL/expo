@@ -160,7 +160,12 @@ internal class ContentKeyDelegate: NSObject, AVContentKeySessionDelegate {
     guard let data else {
       throw DRMLoadException("Fetched content key data is empty")
     }
-    return data
+
+    guard let decodedData = Data(base64Encoded: data) else {
+      throw DRMLoadException("Failed to decode the content key data")
+    }
+
+    return decodedData
   }
 
   private func findAssetIdString(keyRequest: AVContentKeyRequest) -> String? {
